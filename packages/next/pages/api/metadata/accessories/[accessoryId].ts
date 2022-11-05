@@ -1,21 +1,37 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { ethers } from 'ethers';
-import admin from 'firebase-admin';
+// import admin from 'firebase-admin';
 
 require('dotenv').config();
 
-try {
-  admin.initializeApp({
-    credential: admin.credential.cert({
-      projectId: process.env.project_id,
-      privateKey: process.env.private_key?.replace(/\\n/g, '\n'),
-      clientEmail: process.env.client_email,
-    }),
-  });
-} catch (e) {
-  admin.app();
-}
+// try {
+//   admin.initializeApp({
+//     credential: admin.credential.cert({
+//       projectId: process.env.project_id,
+//       privateKey: process.env.private_key?.replace(/\\n/g, '\n'),
+//       clientEmail: process.env.client_email,
+//     }),
+//   });
+// } catch (e) {
+//   admin.app();
+// }
+// const Properties = `HairLower
+// Background
+// Body
+// Eyes
+// Mouth
+// Socks
+// Shoes
+// Gloves
+// Pants
+// Top
+// Hair
+// Wings
+// Cape
+// CapeBack`.split('\n');
+
+// const Links = process.env.ACCESSORIES;
 
 // erc721 - get metadata from the nft directly
 const abi1155 = [
