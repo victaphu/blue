@@ -3,13 +3,15 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+
 import "./IBlueAvatar.sol";
 import "./IBlue1155.sol";
 import "./IBlue721.sol";
 import "./IBlue20.sol";
 
 contract BlueRegistrar is Ownable {
-
+  using ECDSA for bytes32; 
   struct Record {
     uint256 lastDate; 
     uint256 total;
@@ -40,10 +42,14 @@ contract BlueRegistrar is Ownable {
 
   // externally register the user (somehow) to make sure we don't have bots and spammers
   // need a mechanism to do this reliably
-  function registerUser(address user) external onlyOwner {
-    require(balance[user].lastDate == 0, "user already registered");
-    balance[user].lastDate = getCurrentDay();
-    blueAvatar.mint(user);
+  function registerUser(bytes memory signature) external {
+    bytes32 messagehash = keccak256(abi.encodePacked(msg.sender));
+
+    address signer = messagehash.toEthSignedMessageHash().recover(signature);
+    require(signer == owner(), "permission denied");
+    require(balance[msg.sender].lastDate == 0, "user already registered");
+    balance[msg.sender].lastDate = getCurrentDay();
+    blueAvatar.mint(msg.sender);
   }
 
   function getCurrentDay() public view returns (uint256) {

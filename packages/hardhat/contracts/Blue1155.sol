@@ -30,7 +30,7 @@ contract Blue1155 is ERC1155, IBlue1155, Ownable {
     }
 
     constructor(IERC20 _blue20, address _tokenReceiver)
-        ERC1155("https://api.bluetooth.one/1/accessories/")
+        ERC1155("https://blue-api.netlify.app/api/metadata/accessories/{id}")
     {
         require(_tokenReceiver != address(0), "invalid token receiver");
         require(address(_blue20) != address(0), "invalid blue20");
@@ -79,7 +79,7 @@ contract Blue1155 is ERC1155, IBlue1155, Ownable {
         uint256[] memory accessoryIds,
         uint256 total
     ) external onlyOwner ValidArgs(slotId, 1) {
-        currentId.increment();
+        currentId.increment(); // known bug - should increment this at a different place (kept because the rest of the system works around this bug)
         uint256 start = currentId.current();
         uint256[] memory ids = new uint256[](total);
         uint256[] memory amounts = new uint256[](total);

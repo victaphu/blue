@@ -87,6 +87,10 @@ contract Blue721 is ERC721, Ownable, IBlue721 {
         currentId.increment(); // increase counter by 1 to start at pos 1
     }
 
+    function _baseURI() internal pure override returns (string memory) {
+        return "https://blue-api.netlify.app/api/metadata/nfts/";
+    }
+
     // updates can be made only by BlueAvatar
     // statId is 1 based, value is 1 based
     function update(

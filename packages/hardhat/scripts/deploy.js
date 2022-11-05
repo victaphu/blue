@@ -84,16 +84,16 @@ async function blueRegistrarFixture() {
 }
 
 async function blueRegistrarPatch() {
-  const BlueAvatar = hre.ethers.getContractAt("0x91e1A82c02348f04ed3B2F5cA7938D0d5fE186eC");
-  const BlueRegistrar = hre.ethers.getContractAt("0xEc1cbF8c21eCdB964d6a784E94f40BcE493E350A");
-
+  const BlueAvatar = await hre.ethers.getContractAt("BlueAvatar", "0x91e1A82c02348f04ed3B2F5cA7938D0d5fE186eC");
+  const BlueRegistrar = await hre.ethers.getContractAt("BlueRegistrar", "0xEc1cbF8c21eCdB964d6a784E94f40BcE493E350A");
+  console.log(BlueAvatar)
   await BlueAvatar.transferOwnership(BlueRegistrar.address);
 }
 
 async function main() {
-  // await blueRegistrarFixture();
+  await blueRegistrarFixture();
 
-  await blueRegistrarPatch();
+  // await blueRegistrarPatch();
 }
 
 // We recommend this pattern to be able to use async/await everywhere
@@ -105,8 +105,8 @@ main().catch((error) => {
 
 
 
-// Blue20 = 0xCa12F019BDA0bc10f78B7e0db820Df6CE9c53052
-// Blue1155 = 0xAB10b7AeEf6096627AACA638e32ca7B65ddad35c
-// Blue721 = 0x954FBc9fa97d0D55EdbbedCC52AeE3cEb28fBf97
-// BlueAvatar = 0x91e1A82c02348f04ed3B2F5cA7938D0d5fE186eC
-// BlueRegistrar = 0xEc1cbF8c21eCdB964d6a784E94f40BcE493E350A
+// Blue20: 0x06c772643b05b95667C6D99118eC4753F832F2CD
+// Blue1155: 0x874345ef14eE69c8E00aB797AC912046ca2c3A47
+// Blue721: 0xCf77266ACE6189E6beFbd576B219642B860c5eB1
+// BlueAvatar: 0x1e281625469C45f0173F2B67FEF8Dd3d33f442F1
+// BlueRegistrar: 0x8da40C67019605Ae94f1d8e105A1CbDc43672245

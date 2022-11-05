@@ -31,10 +31,12 @@ describe('Blue Registrar Test', () => {
   describe('Test Blue E2E', async () => {
     it('should allow redeem', async () => {
 
+      const msgHash = ethers.utils.solidityKeccak256(["address"], [acc02.address]);
+      let signature = await owner.signMessage(ethers.utils.arrayify(msgHash));
       // claiming test
-      let txn = await BlueRegistrar.registerUser(acc02.address);
+      let txn = await BlueRegistrar.connect(acc02).registerUser(signature);
       expect(txn).to.be.ok;
-      await expect(BlueRegistrar.registerUser(acc02.address)).to.be.revertedWith("user already registered"); // expect third time to fail
+      await expect(BlueRegistrar.connect(acc02).registerUser(signature)).to.be.revertedWith("user already registered"); // expect third time to fail
 
       // have user claim twice
       await BlueRegistrar.connect(acc02).claimBlueToken();

@@ -30,9 +30,12 @@ describe('Blue Registrar Test', () => {
 
   describe('Test Blue Registrar', async () => {
     it('should allow redeem', async () => {
-      let txn = await BlueRegistrar.registerUser(acc02.address);
+
+      const msgHash = ethers.utils.solidityKeccak256(["address"], [acc02.address]);
+      let signature = await owner.signMessage(ethers.utils.arrayify(msgHash));
+      let txn = await BlueRegistrar.connect(acc02).registerUser(signature);
       expect(txn).to.be.ok;
-      await expect(BlueRegistrar.registerUser(acc02.address)).to.be.revertedWith("user already registered"); // expect third time to fail
+      await expect(BlueRegistrar.connect(acc02).registerUser(signature)).to.be.revertedWith("user already registered"); // expect third time to fail
 
 
       // have user claim twice
@@ -47,7 +50,10 @@ describe('Blue Registrar Test', () => {
 
       // test another user claiming works      
       await expect(BlueRegistrar.connect(acc01).claimBlueToken()).to.be.revertedWith("user not registered");
-      txn = await BlueRegistrar.registerUser(acc01.address);
+      const msgHash2 = ethers.utils.solidityKeccak256(["address"], [acc01.address]);
+      let signature2 = await owner.signMessage(ethers.utils.arrayify(msgHash2));
+
+      txn = await BlueRegistrar.connect(acc01).registerUser(signature2);
       expect(txn).to.be.ok;
 
       txn = await BlueRegistrar.connect(acc01).claimBlueToken()
