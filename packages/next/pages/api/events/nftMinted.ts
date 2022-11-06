@@ -334,7 +334,6 @@ export default async function handler(
       });
 
       console.log(JSON.stringify(derivedAvatarProps));
-      derivedAvatarProps.Background = 3;
       const buff = Buffer.from(JSON.stringify(derivedAvatarProps));
       console.log(buff.toString('base64'));
 

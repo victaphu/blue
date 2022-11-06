@@ -19,73 +19,56 @@ try {
   admin.app();
 }
 
-const abiAvatar = [
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "avatarId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "updatedStats",
-        "type": "uint256"
-      }
-    ],
-    "name": "Equipped",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "avatarId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "updatedStats",
-        "type": "uint256"
-      }
-    ],
-    "name": "UnEquipped",
-    "type": "event"
-  }
-]
-
 // erc721 - get metadata from the nft directly
 const abi721 = [
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'owner',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'tokenId',
+        type: 'uint256',
+      },
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'stats',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'tones1',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'tones2',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'tones3',
+            type: 'uint256',
+          },
+        ],
+        indexed: false,
+        internalType: 'struct AvatarProps',
+        name: 'created',
+        type: 'tuple',
+      },
+    ],
+    name: 'AvatarCreated',
+    type: 'event',
+  },
+  'function ownerOf(uint256) external view returns (address)',
   {
     inputs: [
       {
@@ -174,7 +157,7 @@ neckTone2`.split('\n');
 
 const provider = new ethers.providers.JsonRpcProvider(process.env.RPC!);
 const contract = new ethers.Contract(process.env.Blue721!, abi721, provider);
-const contractAvatar = new ethers.Contract(process.env.BlueAvatar!, abiAvatar, provider);
+
 // export default async function handler(
 //   req: NextApiRequest,
 //   res: NextApiResponse
@@ -287,108 +270,79 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log('Processing - accessory changed', req.body);
-  if (!req.body.confirmed || !req.body.logs || req.body.logs.length === 0) {
-    res.json({ message: 'ok - not confirmed' });
-    return;
-  }
+  const { nftId } = req.query;
 
-  const logs = req.body.logs[0];
-  if (!logs.topics) {
-    logs.topics = [];
-    for (let i = 0; i < 10; ++i) {
-      if (logs['topic' + i]) {
-        logs.topics.push(logs['topic' + i]);
-      } else {
-        break;
+  try {
+    console.log(await contract.ownerOf(nftId!)); // check if the token exists
+    const props = await contract.getProps(nftId);
+
+    // proxy the image to the website by first loading the
+    // token from the contract (721) decoding the props and
+    // then retrieving image
+
+    console.log('Loaded props from blockchain', props);
+    const paddedProps = (
+      new Array(Properties.length * 2).fill('0').join('') +
+      props.stats.toString()
+    ) // props.stats.toString()
+      .slice(-Properties.length * 2)
+      .match(/.{1,2}/g);
+
+    console.log(paddedProps);
+
+    const derivedAvatarProps = {} as any;
+
+    Properties.forEach((p, i) => {
+      if (+paddedProps![i] > 0) {
+        derivedAvatarProps[p] = (+paddedProps![i] - 1).toString();
       }
-    }
-  }
+    });
 
-  const accessoryChanged = contractAvatar.interface.parseLog(logs);
-  // owner avatarId tokenid stats (we take avatarId and retrieve the data)
-  console.log('Avatar Created', accessoryChanged);
+    const bigNumber = ethers.utils.hexlify(props.tones1);
+    const bigNumber2 = ethers.utils.hexlify(props.tones2);
+    const bigNumber3 = ethers.utils.hexlify(props.tones3);
+    const myTones = (
+      bigNumber.replace('0x', '') +
+      bigNumber2.replace('0x', '') +
+      bigNumber3.replace('0x', '')
+    ).match(/.{1,6}/g);
 
-  const tokenId = accessoryChanged.args.avatarId;
-  // regardless of if we equip or unequip we will need to regenerate by pulling the id props and
-  // re-processing the image
-  if (tokenId) {
-    try {
-      // console.log(await contract.ownerOf(image!)); // check if the token exists
-      const props = await contract.getProps(tokenId);
+    Tones.forEach((t, i) => {
+      derivedAvatarProps[t] = myTones![i];
+    });
 
-      // proxy the image to the website by first loading the
-      // token from the contract (721) decoding the props and
-      // then retrieving image
+    console.log(JSON.stringify(derivedAvatarProps));
+    const buff = Buffer.from(JSON.stringify(derivedAvatarProps));
+    console.log(buff.toString('base64'));
 
-      console.log('Loaded props from blockchain', props);
-      const paddedProps = (
-        new Array(Properties.length * 2).fill('0').join('') +
-        props.stats.toString()
-      ) // props.stats.toString()
-        .slice(-Properties.length * 2)
-        .match(/.{1,2}/g);
+    // console.log(process.env.IMAGE_GENERATOR?.replace("{PROPERTIES}", buff.toString('base64')));
+    const bucket = admin.storage().bucket(`gs://${process.env.storageBucket}`);
+    const file = bucket.file(`nft-images/${nftId}.png`);
 
-      console.log(paddedProps);
-
-      const derivedAvatarProps = {} as any;
-
-      Properties.forEach((p, i) => {
-        if (+paddedProps![i] > 0) {
-          derivedAvatarProps[p] = (+paddedProps![i] - 1).toString();
-        }
-      });
-
-      const bigNumber = ethers.utils.hexlify(props.tones1);
-      const bigNumber2 = ethers.utils.hexlify(props.tones2);
-      const bigNumber3 = ethers.utils.hexlify(props.tones3);
-      const myTones = (
-        bigNumber.replace('0x', '') +
-        bigNumber2.replace('0x', '') +
-        bigNumber3.replace('0x', '')
-      ).match(/.{1,6}/g);
-
-      Tones.forEach((t, i) => {
-        derivedAvatarProps[t] = myTones![i];
-      });
-
-      console.log(JSON.stringify(derivedAvatarProps));
-      const buff = Buffer.from(JSON.stringify(derivedAvatarProps));
-      console.log(buff.toString('base64'));
-
-      // console.log(process.env.IMAGE_GENERATOR?.replace("{PROPERTIES}", buff.toString('base64')));
-      const bucket = admin
-        .storage()
-        .bucket(`gs://${process.env.storageBucket}`);
-      const file = bucket.file(`nft-images/${tokenId.toString()}.png`);
-
-      fetch(
-        process.env.IMAGE_GENERATOR?.replace(
-          '{PROPERTIES}',
-          buff.toString('base64')
-        )!
-      )
-        .then((r: any) => {
-          const contentType = r.headers.get('content-type');
-          console.log('loaded data', contentType);
-          const writeStream = file.createWriteStream({
-            metadata: {
-              contentType: 'image/png',
-            },
-          });
-          console.log('piping stream ');
-          r.body.pipe(writeStream);
-          res.status(200).json({ name: `ID is ${tokenId.toString()}` });
-        })
-        .catch((e) => {
-          console.log('Failed', e);
-          res.status(404).json({ error: 'not found' });
+    fetch(
+      process.env.IMAGE_GENERATOR?.replace(
+        '{PROPERTIES}',
+        buff.toString('base64')
+      )!
+    )
+      .then((r: any) => {
+        const contentType = r.headers.get('content-type');
+        console.log('loaded data', contentType);
+        const writeStream = file.createWriteStream({
+          metadata: {
+            contentType: 'image/png',
+          },
         });
-    } catch (e) {
-      console.log(e);
-      res.status(404).json({ error: 'not found' });
-    }
-  } else {
-    res.json({ message: 'ok but token id not found' });
+        console.log('piping stream ');
+        r.body.pipe(writeStream);
+        res.status(200).json({ name: `ID is ${nftId}` });
+      })
+      .catch((e) => {
+        console.log('Failed', e);
+        res.status(404).json({ error: 'not found' });
+      });
+  } catch (e) {
+    console.log(e);
+    res.status(404).json({ error: 'not found' });
   }
 }
