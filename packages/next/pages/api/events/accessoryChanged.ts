@@ -288,7 +288,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   console.log('Processing - accessory changed', req.body);
-  if (!req.body.confirmed) {
+  if (!req.body.confirmed || !req.body.logs || req.body.logs.length === 0) {
     res.json({ message: 'ok - not confirmed' });
     return;
   }
