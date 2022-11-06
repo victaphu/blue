@@ -145,7 +145,7 @@ export default async function handler(
 //     // proxy the image to the website by first loading the
 //     // token from the contract (721) decoding the props and
 //     // then retriev  res.json({"message": "ok"});
-ps);
+
 //     const paddedProps = (
 //       new Array(Properties.length * 2).fill('0').join('') +
 //       props.stats.toString()
