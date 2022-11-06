@@ -210,7 +210,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log(req.body);
+  console.log("Processing - accessory changed", req.body);
 
   res.json({"message": "ok"});
 }
