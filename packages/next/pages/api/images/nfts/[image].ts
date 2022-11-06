@@ -49,6 +49,9 @@ export default async function handler(
           console.log('Failed', e);
           res.status(404).json({ error: 'not found' });
         });
+    }, (error) => {
+      console.log("Failed with", error)
+      res.status(404).json({error: "token not found"});
     });
   } catch (e) {
     res.status(404).json({ error: 'token not found' });
