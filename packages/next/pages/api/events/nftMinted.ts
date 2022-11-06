@@ -116,6 +116,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   console.log(req.body);
+  res.json({"message": "ok"});
+
 }
 
 // export default async function handler(
@@ -142,9 +144,8 @@ export default async function handler(
 
 //     // proxy the image to the website by first loading the
 //     // token from the contract (721) decoding the props and
-//     // then retrieving image
-
-//     console.log(props);
+//     // then retriev  res.json({"message": "ok"});
+ps);
 //     const paddedProps = (
 //       new Array(Properties.length * 2).fill('0').join('') +
 //       props.stats.toString()

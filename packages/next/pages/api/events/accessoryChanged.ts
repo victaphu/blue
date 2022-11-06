@@ -211,4 +211,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   console.log(req.body);
+
+  res.json({"message": "ok"});
 }
