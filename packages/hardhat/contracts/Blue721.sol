@@ -99,8 +99,8 @@ contract Blue721 is ERC721, Ownable, IBlue721 {
         uint256 value
     ) external onlyOwner returns (uint256) {
         require(currentId.current() > tokenId, "Invalid token Id");
-        require(LIMITS.length >= statId && statId > 0, "Invalid stats Id");
-        require(LIMITS[statId - 1] >= value, "Invalid stats Value");
+        require(LIMITS.length >= statId && statId >= 0, "Invalid stats Id");
+        require(LIMITS[statId] >= value, "Invalid stats Value");
 
         // figure out the position, math it out and then set the new value
         uint256 stats = props[tokenId].stats;

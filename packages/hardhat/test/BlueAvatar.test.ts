@@ -66,6 +66,10 @@ describe('AvatarTest', () => {
       
 
       //// test equip / unequip / equip
+      await Blue1155.connect(acc02).buy(200); 
+      await BlueAvatar.connect(acc02).equip(1, 200); // equip token 1
+
+
     });
   });
 });

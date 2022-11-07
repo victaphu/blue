@@ -27,7 +27,7 @@ contract BlueAvatar is Ownable, IERC1155Receiver, IBlueAvatar {
   }
 
   function _unequip(uint256 nftId, uint256 tokenId) private returns (uint256 slotId) {
-    slotId = blueAccessories.getSlot(tokenId);
+    slotId = blueAccessories.getSlot(tokenId) - 1;
     if (activeSlots[nftId][IBlue721.Slots(slotId)] > 0) {
       // transfer blue accessories back to the owner of this NFT
       blueAccessories.safeTransferFrom(address(this), msg.sender, activeSlots[nftId][IBlue721.Slots(slotId)], 1, "");
