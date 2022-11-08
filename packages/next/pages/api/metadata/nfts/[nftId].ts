@@ -2,6 +2,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { ethers } from 'ethers';
 
+import { GenPlot } from '../../../../components/Nft/fairy-name'
+import { GenPlot as FairHistoryPlot } from '../../../../components/Nft/fairy-history'
+
 require('dotenv').config();
 
 // erc721 - get metadata from the nft directly
@@ -16,11 +19,11 @@ const getTemplate = (tokenId: any) => {
   "properties": {
       "name": {
           "type": "string",
-          "description": "BlueNFT"
+          "description": "${GenPlot(tokenId)}"
       },
       "description": {
           "type": "string",
-          "description": "Blue framework for integration Bluetooth devices into the blockchain"
+          "description": "${FairHistoryPlot(tokenId)}"
       },
       "image": {
           "type": "string",
@@ -48,6 +51,7 @@ export default async function handler(
     res.status(200).json(getTemplate(nftId));
   }
   catch (e) {
+    console.log(e)
     res.status(404).json({"error": "token not found"});
   }
 }
