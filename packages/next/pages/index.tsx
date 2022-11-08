@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const Home: NextPage = () => {
   return (
@@ -11,7 +12,7 @@ const Home: NextPage = () => {
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Sign in to your account</h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Or
-            <a href="/register" className="font-medium text-indigo-600 hover:text-indigo-500"> Register a new Account</a>
+            <Link href="/register" className="font-medium text-indigo-600 hover:text-indigo-500"> Register a new Account</Link>
           </p>
         </div>
         <form className="mt-8 space-y-6" action="#" method="POST">
