@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { FaHome, FaRegNewspaper, FaShoppingCart, FaWallet } from 'react-icons/fa';
 import Nft from '../components/Nft';
 
-// import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
     return (
