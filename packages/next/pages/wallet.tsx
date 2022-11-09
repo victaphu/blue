@@ -23,20 +23,7 @@ const Home: NextPage = () => {
 
             
 
-            <div className="btm-nav">
-                <button>
-                    <FaHome />
-                </button>
-                <button>
-                    <FaRegNewspaper />
-                </button>
-                <button className="active">
-                    <FaShoppingCart />
-                </button>
-                <button>
-                    <FaWallet />
-                </button>
-            </div>
+           
         </div>
     )
 }

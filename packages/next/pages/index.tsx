@@ -19,7 +19,7 @@ const Home: NextPage = () => {
   const { signMessageAsync } = useSignMessage();
   const { push } = useRouter();
 
-  const getConnector = (metamask: boolean) : any => {
+  const getConnector = (metamask: boolean): any => {
     return metamask ? new MetaMaskConnector() : new Web3AuthConnector({
       options: {
         socialLoginConfig: {
@@ -34,35 +34,61 @@ const Home: NextPage = () => {
   }
 
   const handleAuth = async (metamask = false) => {
-    if (isConnected) {
-      await disconnectAsync();
+    try {
+      if (isConnected) {
+        await disconnectAsync();
+      }
+      const { account, chain } = await connectAsync({
+        connector: getConnector(metamask)
+      });
+
+      const userData = { address: account, chain: "0x61", network: 'evm' };
+      console.log("Received user data", userData)
+
+      const { data } = await axios.post('/api/auth/request-message', userData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const message = data.message;
+
+      const signature = await signMessageAsync({ message });
+
+      // get users' NFT balance
+      const nfts = await axios.get(`/api/register/checkNfts?address=${account}`);
+      console.log(nfts);
+
+      const isRegistered = nfts.data.length > 0;
+
+      // redirect user after success authentication to '/user' page
+      const result = await signIn('credentials', { message, signature, redirect: false, callbackUrl: isRegistered ? "/home" : "/register" });
+
+      if (!result || !result.url || result.error) {
+        toast.error(`Failed to sign-in, error was ${result!.error}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        return;
+      }
+      /**
+       * instead of using signIn(..., redirect: "/user")
+       * we get the url from callback and push it to the router to avoid page refreshing
+       */
+      console.log("Logged in", result);
+      // push(url);
+
+      push(result.url)
     }
-    const { account, chain } = await connectAsync({
-      connector: getConnector(metamask)
-    });
-
-    const userData = { address: account, chain: "0x61", network: 'evm' };
-    console.log("Received user data", userData)
-
-    const { data } = await axios.post('/api/auth/request-message', userData, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const message = data.message;
-
-    const signature = await signMessageAsync({ message });
-
-    // get users' NFT balance
-    const nfts = await axios.get(`/api/register/checkNfts?address=${account}`);
-    console.log(nfts);
-
-    // redirect user after success authentication to '/user' page
-    const result = await signIn('credentials', { message, signature, redirect: false, callbackUrl: '/user' });
-
-    if (!result || !result.url || result.error) {
-      toast.error(`Failed to sign-in, error was ${result!.error}`, {
+    catch (e) {
+      console.log('failed', e)
+      toast.error(`Failed to sign-in, error was ${e}`, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -72,25 +98,18 @@ const Home: NextPage = () => {
         progress: undefined,
         theme: "light",
       });
-      return;
     }
-    /**
-     * instead of using signIn(..., redirect: "/user")
-     * we get the url from callback and push it to the router to avoid page refreshing
-     */
-    console.log("Logged in", result);
-    // push(url);
-
-    // push(result.url)
   };
 
   return (
     <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <ToastContainer/>
       <div className="w-full max-w-md space-y-8">
         <div>
           <Image className="mx-auto h-48 w-auto" height='320' width='320' src="/images/screens/splash.svg" alt="Your Company" />
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Sign in to your account</h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <h1 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Welcome to Blue</h1>
+          <h3 className="mt-6 text-center text-xl font-bold tracking-tight text-gray-900">Sign in to your account</h3>
+          <p className="mt-2 text-center text-md text-gray-600">
             Or
             <Link href="/register" className="font-medium text-indigo-600 hover:text-indigo-500"> Register a new Account</Link>
           </p>
@@ -118,6 +137,13 @@ const Home: NextPage = () => {
             </button>
           </div>
         </form>
+
+        <p className="mt-4 text-center text-sm text-gray-600">
+          Blue allows you to connect your real-world Bluetooth devices to the Blockchain to earn credits to spend on accessories for your collectibles. <br />
+        </p>
+        <p className="mt-4 text-center text-sm text-gray-600">
+          This POC is a submission for the Moralis x Google 2022 ‘Defining DeFi’ Hackathon and uses the Blue Framework to connect to your Oral B Pro Series toothbrushes. Check out the <a href='https://github.com/victaphu/blue/blob/main/README.md'>README</a> for more information
+        </p>
       </div>
     </div>
   )

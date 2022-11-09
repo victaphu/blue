@@ -26,12 +26,13 @@ export default async function handler(
         i = e.indexOf('story-content', i)
         i = e.indexOf('<a href="', i)
         const href = e.substring(i + 9, e.indexOf('">', i))
+        const short = e.substring(e.indexOf('>', i) + 1, e.indexOf('</a>', i))
         i = e.indexOf('<p>')
         const desc = e.substring(i + 3, e.indexOf('</p>', i)).trim()
         i = e.indexOf('<i class="flaticon')
         let time = e.substring(i, e.indexOf('</p>', i))
         time = time.substring(time.indexOf('</i>') + 4).trim()
-        return {image: "https://www.ada.org.au" + img, href: "https://www.ada.org.au" + href, desc, time}
+        return {image: "https://www.ada.org.au" + img, href: "https://www.ada.org.au" + href, desc, time, short}
     }).filter(e=>e)
 
 
