@@ -19,19 +19,26 @@ const Home: NextPage = () => {
   const { signMessageAsync } = useSignMessage();
   const { push } = useRouter();
 
+  const getConnector = (metamask: boolean) : any => {
+    return metamask ? new MetaMaskConnector() : new Web3AuthConnector({
+      options: {
+        socialLoginConfig: {
+          
+        },
+        enableLogging: true,
+        clientId: 'BK5CIT5-EFcX-v8ST392us0ZV1g2vzrh1Whd9TH2XSkUN4eNDs-UPL1qSfw2iK9-F9cABe9nZpW2ACrlwM-2D70', // Get your own client id from https://dashboard.web3auth.io
+        network: 'testnet', // web3auth network
+        chainId: '0x61', // chainId that you want to connect with
+      },
+    })
+  }
+
   const handleAuth = async (metamask = false) => {
     if (isConnected) {
       await disconnectAsync();
     }
     const { account, chain } = await connectAsync({
-      connector: metamask ? new MetaMaskConnector() : new Web3AuthConnector({
-        options: {
-          enableLogging: true,
-          clientId: 'BK5CIT5-EFcX-v8ST392us0ZV1g2vzrh1Whd9TH2XSkUN4eNDs-UPL1qSfw2iK9-F9cABe9nZpW2ACrlwM-2D70', // Get your own client id from https://dashboard.web3auth.io
-          network: 'testnet', // web3auth network
-          chainId: '0x61', // chainId that you want to connect with
-        },
-      })
+      connector: getConnector(metamask)
     });
 
     const userData = { address: account, chain: "0x61", network: 'evm' };
