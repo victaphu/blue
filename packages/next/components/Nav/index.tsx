@@ -15,18 +15,18 @@ const Nav = () => {
   console.log(pathname)
 
   return (
-    <div className="btm-nav">
-      <button className={pathname === '/home' && "active" || ""} onClick={e=>push('/home')}>
+    <div className="btm-nav bg-secondary text-white">
+      <button className={pathname === '/home' && "active  bg-primary" || ""} onClick={e=>push('/home')}>
         <FaHome />
       </button>
-      <button className={pathname === '/news' && "active" || ""} onClick={e=>push('/news')}>
-        <FaRegNewspaper />
-      </button>
-      <button className={pathname === '/marketplace' && "active" || ""} onClick={e=>push('/marketplace')}>
+      <button className={pathname === '/marketplace' && "active  bg-primary" || ""} onClick={e=>push('/marketplace')}>
         <FaShoppingCart />
       </button>
-      <button className={pathname === '/wallet' && "active" || ""} onClick={e=>push('/wallet')}>
+      <button className={pathname === '/wallet' && "active  bg-primary" || ""} onClick={e=>push('/wallet')}>
         <FaWallet />
+      </button>
+      <button className={pathname === '/news' && "active  bg-primary" || ""} onClick={e=>push('/news')}>
+        <FaRegNewspaper />
       </button>
     </div>
   )

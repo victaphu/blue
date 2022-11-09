@@ -32,7 +32,7 @@ const Home: NextPage = () => {
             </svg>}
             <div className="flex flex-col gap-4 w-full mb-24">
                 {news.map((n: any, i) => {
-                    return (<div key={i} className="card bg-base-100 shadow-xl border">
+                    return (<div key={i} className="card bg-base-100 shadow-xl border bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white">
                         <figure><Image height="225" width="400" src={`https://placeimg.com/400/225/${images[i % images.length]}`} alt="car!" /></figure>
                         <div className="card-body">
                             <h2 className="card-title">{n.short}</h2>
