@@ -23,7 +23,7 @@ const Home: NextPage = () => {
     return metamask ? new MetaMaskConnector() : new Web3AuthConnector({
       options: {
         socialLoginConfig: {
-          
+
         },
         enableLogging: true,
         clientId: 'BK5CIT5-EFcX-v8ST392us0ZV1g2vzrh1Whd9TH2XSkUN4eNDs-UPL1qSfw2iK9-F9cABe9nZpW2ACrlwM-2D70', // Get your own client id from https://dashboard.web3auth.io
@@ -54,6 +54,10 @@ const Home: NextPage = () => {
 
     const signature = await signMessageAsync({ message });
 
+    // get users' NFT balance
+    const nfts = await axios.get(`/api/register/checkNfts?address=${account}`);
+    console.log(nfts);
+
     // redirect user after success authentication to '/user' page
     const result = await signIn('credentials', { message, signature, redirect: false, callbackUrl: '/user' });
 
@@ -77,7 +81,7 @@ const Home: NextPage = () => {
     console.log("Logged in", result);
     // push(url);
 
-    push(result.url)
+    // push(result.url)
   };
 
   return (
