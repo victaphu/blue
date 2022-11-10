@@ -12,8 +12,8 @@ const bsbTestNet : Chain = {
   network: 'bsc-testnet',
   nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
   rpcUrls: {
-    default: "https://data-seed-prebsc-1-s1.binance.org:8545",
-    public: "https://data-seed-prebsc-1-s1.binance.org:8545",
+    default: "https://bsctestapi.terminet.io/rpc",
+    public: "https://bsctestapi.terminet.io/rpc",
   },
   blockExplorers: {
     etherscan: {

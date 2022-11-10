@@ -10,10 +10,10 @@ const Home: NextPage = () => {
         <div className="flex flex-col min-h-full items-center justify-center px-4 sm:px-6 lg:px-8 p-4">
             
             <div className="flex w-full justify-center items-center">
-                <Nft />
+                <Nft detailed={true}/>
             </div>
             <div className="flex w-full">
-                <button className='btn btn-success w-full text-white mt-4'>Connect ORAL-B Toothbrush!</button>
+                <button className='btn btn-primary w-full text-base-100 mt-4'>Connect ORAL-B Toothbrush!</button>
             </div>
         </div>
     )
