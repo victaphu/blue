@@ -1,16 +1,16 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { ethers } from 'ethers';
 
-import { GenPlot } from '../../../../components/Nft/fairy-name'
-import { GenPlot as FairHistoryPlot } from '../../../../components/Nft/fairy-history'
+import { GenPlot } from '../../../../components/Nft/fairy-name';
+import { GenPlot as FairHistoryPlot } from '../../../../components/Nft/fairy-history';
+import Moralis from 'moralis';
+import { EvmChain } from '@moralisweb3/evm-utils';
+
+const chain = EvmChain.BSC_TESTNET;
+
+const address = process.env.Blue721!;
 
 require('dotenv').config();
-
-// erc721 - get metadata from the nft directly
-const abi721 = [
-  "function ownerOf(uint256) external view returns (address)"
-]
 
 const getTemplate = (tokenId: any) => {
   const template = `{
@@ -33,9 +33,6 @@ const getTemplate = (tokenId: any) => {
 }`;
   return JSON.parse(template);
 };
-const provider = new ethers.providers.JsonRpcProvider(process.env.RPC!);
-const contract = new ethers.Contract(process.env.Blue721!, abi721, provider);
-
 
 export default async function handler(
   req: NextApiRequest,
@@ -44,14 +41,32 @@ export default async function handler(
   const { nftId } = req.query;
 
   try {
-    console.log(await contract.ownerOf(nftId)); // check if the token exists
+    if (typeof(nftId) !== 'string' || !nftId) {
+      res.status(404).json({ "error": "error - invalid params" });
+
+      return 
+    }
+    await Moralis.start({
+      apiKey: process.env.MORALIS_API_KEY!,
+      // ...and any other configuration
+    });
+
+    const response = await Moralis.EvmApi.nft.getNFTTokenIdOwners({
+      address,
+      chain,
+      tokenId: nftId,
+    });
+    // console.log(response.result);
+    if (response.result.length === 0) {
+      res.status(404).json({ error: 'token not found'});
+      return;
+    }
     // proxy the image to the website by first loading the
     // token from the contract (721) decoding the props and
     // then retrieving image
     res.status(200).json(getTemplate(nftId));
-  }
-  catch (e) {
-    console.log(e)
-    res.status(404).json({"error": "token not found"});
+  } catch (e) {
+    console.log(e);
+    res.status(404).json({ error: 'token not found' });
   }
 }

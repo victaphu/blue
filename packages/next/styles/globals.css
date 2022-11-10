@@ -2,3 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  background-color: #BBA2FF!important;
+  height: 100%;
+  color: white;
+}

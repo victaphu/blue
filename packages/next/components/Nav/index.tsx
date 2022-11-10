@@ -8,8 +8,8 @@ const Nav = () => {
   const { isConnected } = useAccount();
   const { push, pathname } = useRouter();
 
-  if (!isConnected || pathname === '/' || pathname === '/register') {
-    return <></>
+  if (pathname === '/' || pathname === '/register') {
+    return <div></div>
   }
 
   console.log(pathname)

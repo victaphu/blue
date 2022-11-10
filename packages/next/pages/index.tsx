@@ -107,11 +107,11 @@ const Home: NextPage = () => {
       <div className="w-full max-w-md space-y-8">
         <div>
           <Image className="mx-auto h-48 w-auto" height='320' width='320' src="/images/screens/splash.svg" alt="Your Company" />
-          <h1 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Welcome to Blue</h1>
+          <h1 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Welcome to <span className='text-blue-600'>Blue</span></h1>
           <h3 className="mt-6 text-center text-xl font-bold tracking-tight text-gray-900">Sign in to your account</h3>
           <p className="mt-2 text-center text-md text-gray-600">
             Or
-            <Link href="/register" className="font-medium text-indigo-600 hover:text-indigo-500"> Register a new Account</Link>
+            <Link href="/register" className="text-indigo-600 hover:text-indigo-500 font-bold"> Register a new Account</Link>
           </p>
         </div>
         <form className="mt-8 space-y-6" action="#" method="POST">
@@ -121,7 +121,7 @@ const Home: NextPage = () => {
             <button type="button" onClick={e => handleAuth(false)} className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <svg className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd" />
+                  <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
                 </svg>
               </span>
               Web3 Auth Sign in
@@ -130,7 +130,7 @@ const Home: NextPage = () => {
             <button type="button" onClick={e => handleAuth(true)} className="group relative flex w-full justify-center rounded-md border border-transparent btn-success py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <svg className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd" />
+                  <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
                 </svg>
               </span>
               Metamask Sign in
