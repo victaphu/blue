@@ -40,7 +40,7 @@ const Home: NextPage = () => {
                     <div className='flex flex-wrap flex-row gap-2 my-4'>
                         {Object.keys(accessories).map((k: string, i) => {
                             const a = accessories[k][1];
-                            return (<div key={i} className={'rounded-full bg-base-300 bg-base-200 shadow-xl w-12 h-12 overflow-hidden ' + (selected === i && 'border border-2 border-black')} ><Image key={i} width='50' height='50' onClick={e => setSelected(i)} src={a.image} /></div>)
+                            return (<div key={i} className={'rounded-full bg-base-300 bg-base-200 shadow-xl w-12 h-12 overflow-hidden ' + (selected === i && 'border border-2 border-black')} ><Image key={i} width='50' height='50' onClick={e => setSelected(i)} alt="accessories" src={a.image} /></div>)
                         })}
                     </div>
                 </div></>
@@ -50,7 +50,7 @@ const Home: NextPage = () => {
                 <div className="flex flex-row flex-wrap gap-4">
                     {
                         accessories[Object.keys(accessories)[selected]]?.map((a: any, i: any) => {
-                            return <div key={i} className={'rounded-full bg-base-300 bg-base-200 shadow-xl w-12 h-12'}><Image width='50' height='48' onClick={e => setSelected(i)} src={a.image} /></div>
+                            return <div key={i} className={'rounded-full bg-base-300 bg-base-200 shadow-xl w-12 h-12'}><Image width='50' height='48' onClick={e => setSelected(i)} alt="selected accessories" src={a.image} /></div>
                         })
                     }
                 </div>

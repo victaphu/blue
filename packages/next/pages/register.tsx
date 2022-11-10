@@ -84,7 +84,7 @@ const abis = {
     }]
 }
 
-const createContractWrite = (args: any, functionName: string, address: string, abi: any) => {
+const useContractWriter = (args: any, functionName: string, address: string, abi: any) => {
     console.log(args, functionName)
     const { config, error: E } = usePrepareContractWrite({
         address,
@@ -114,11 +114,11 @@ const Home: NextPage = () => {
     const [error, setError] = useState('');
 
     const stepHandlers: any = {
-        0: createContractWrite([debouncedRegistered], 'registerUser', process.env.NEXT_PUBLIC_BLUE_REGISTRAR!, abis.blueRegistrar),
+        0: useContractWriter([debouncedRegistered], 'registerUser', process.env.NEXT_PUBLIC_BLUE_REGISTRAR!, abis.blueRegistrar),
         // approve 10k blue tokens for spending on blue 1155
-        1: createContractWrite([process.env.NEXT_PUBLIC_BLUE_1155, 10000], 'approve', process.env.NEXT_PUBLIC_BLUE_20!, abis.blue20),
+        1: useContractWriter([process.env.NEXT_PUBLIC_BLUE_1155, 10000], 'approve', process.env.NEXT_PUBLIC_BLUE_20!, abis.blue20),
         // approve blue avatar to manage 1155 for user (equip / unequip)
-        2: createContractWrite([process.env.NEXT_PUBLIC_BLUE_AVATAR, true], 'setApprovalForAll', process.env.NEXT_PUBLIC_BLUE_1155!, abis.blue1155)
+        2: useContractWriter([process.env.NEXT_PUBLIC_BLUE_AVATAR, true], 'setApprovalForAll', process.env.NEXT_PUBLIC_BLUE_1155!, abis.blue1155)
     }
 
     useEffect(() => {
