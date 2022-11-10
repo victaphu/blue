@@ -19,7 +19,7 @@ const Wallet = ({ lite }: any) => {
 
 
     return (
-        <div className={"w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-xl text-white px-8 py-4 " + (lite ? "rounded-r-xl" : "rounded-xl") }>
+        <div className={"w-full bg-purple-700 shadow-xl text-white px-8 py-4 " + (lite ? "rounded-r-xl" : "rounded-xl") }>
             <div className="text-xs">
                 Wallet
             </div>

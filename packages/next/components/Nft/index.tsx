@@ -60,10 +60,10 @@ const Nft = ({ lite, register }: any) => {
     }
 
     return (
-        <div className={"card w-96 bg-base-100 shadow-xl bg-blue-200" + (!lite && 'p-2') + (lite && ' card-side ')}>
+        <div className={"card w-96 shadow-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white " + (!lite && ' p-4 ') + (lite && ' card-side ')}>
             <div className="rounded">
                 {lite && <figure><Image className={lite ? "rounded-l-xl" : "rounded-xl"} height="125" width="125" src={meta.properties.image.description} alt="nft" /></figure>}
-                {!lite && <figure><Image height="250" width="250" src={meta.properties.image.description} alt="nft" /></figure>}
+                {!lite && <figure><Image height="250" width="350" className="rounded-xl" src={meta.properties.image.description} alt="nft" /></figure>}
                 {!lite && <div className="card-body">
                     <h2 className="card-title">{meta.properties.name.description}</h2>
                     <p className="text-xs">{meta.properties.description.description}</p>
