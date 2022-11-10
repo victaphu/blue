@@ -19,14 +19,14 @@ const Wallet = ({ lite }: any) => {
 
 
     return (
-        <div className={"w-full bg-purple-700 shadow-xl text-white px-8 py-4 " + (lite ? "rounded-r-xl" : "rounded-xl") }>
+        <div className={"w-full bg-purple-700 shadow-xl text-white px-4 py-4 " + (lite ? "rounded-r-xl" : "rounded-xl") }>
             <div className="text-xs">
                 Wallet
             </div>
             <div className="text-3xl">
                 50.00 BLUE
             </div>
-            {!lite && <div className="flex flex-row gap-4 mt-3">
+            {!lite && <div className="flex flex-row gap-2 mt-3">
                 <button className='text-lg btn btn-primary flex-1'><FaBluetooth className='mr-2'/> Claim</button><button  className='text-lg btn btn-primary flex-1'><FaShareAltSquare className='mr-2'/> Explore</button>
             </div>}
         </div>
