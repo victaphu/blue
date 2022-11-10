@@ -6,9 +6,10 @@ import { FaHome, FaRegNewspaper, FaShareSquare, FaShoppingCart, FaWallet } from 
 import { useAccount } from 'wagmi';
 import Wallet from '../Wallet';
 
-const Nft = ({ lite }: any) => {
+const Nft = ({ lite, register }: any) => {
     const { isConnected, address } = useAccount();
     const [meta, setMeta] = useState({} as any)
+
     useEffect(() => {
         if (!address) {
             return;
@@ -16,8 +17,25 @@ const Nft = ({ lite }: any) => {
         const fetchNft = async () => {
             const nfts = await axios.get(`/api/register/checkNfts?address=${address}`);
             console.log(nfts.data);
-
-            const meta = await axios.get(nfts.data[0].tokenUri.replace('https://blue-api.netlify.app', 'http://localhost:3000'));
+            if (!nfts.data.length) {
+                // no token!
+                setMeta({
+                    fake: true,
+                    properties: {
+                        image: {
+                            description: "/images/screens/nft.svg"
+                        },
+                        name: {
+                            description: ""
+                        },
+                        description: {
+                            description: ""
+                        }
+                    }
+                })
+                return;
+            }
+            const meta = await axios.get(nfts.data[0].tokenUri);
             console.log(meta);
             setMeta(meta.data);
         }
@@ -34,7 +52,6 @@ const Nft = ({ lite }: any) => {
         </svg>
     }
 
-
     return (
         <div className={"card w-96 bg-base-100 shadow-xl " + (!lite && 'p-2') + (lite && ' card-side ')}>
             <div className="rounded">
@@ -46,7 +63,7 @@ const Nft = ({ lite }: any) => {
 
                 </div>}
             </div>
-            <Wallet lite={lite}/>
+            {!register && <Wallet lite={lite}/>}
         </div>
     )
 }
