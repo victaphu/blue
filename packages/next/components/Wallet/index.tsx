@@ -3,10 +3,14 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { FaBluetooth, FaHome, FaRegNewspaper, FaShareAltSquare, FaShareSquare, FaShoppingCart, FaWallet } from 'react-icons/fa';
-import { useAccount } from 'wagmi';
+import { useAccount, useBalance } from 'wagmi';
 
 const Wallet = ({ lite }: any) => {
     const { isConnected, address } = useAccount();
+    const { data, isError, isLoading } = useBalance({
+        addressOrName: process.env.NEXT_PUBLIC_BLUE_20!,
+      });
+
     const [meta, setMeta] = useState({} as any)
     
 
@@ -24,7 +28,7 @@ const Wallet = ({ lite }: any) => {
                 Wallet
             </div>
             <div className="text-3xl">
-                50.00 BLUE
+                {!isLoading && data?.value.toString()} BLUE
             </div>
             {!lite && <div className="flex flex-row gap-2 mt-3">
                 <button className='text-lg btn btn-primary flex-1'><FaBluetooth className='mr-2'/> Claim</button><button  className='text-lg btn btn-primary flex-1'><FaShareAltSquare className='mr-2'/> Explore</button>

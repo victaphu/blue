@@ -41,7 +41,7 @@ const Home: NextPage = () => {
                     </div>
                 </div></>
             }
-            <div className="shadow-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-xl my-2 p-2 w-full items-center justify-center flex flex-col">
+            <div className="shadow-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-xl p-2 w-full items-center justify-center flex flex-col">
                 <div className="pb-2 text-center font-bold text-lg">{Object.keys(accessories)[selected]}</div>
                 <div className="flex flex-row flex-wrap gap-2">
                     {

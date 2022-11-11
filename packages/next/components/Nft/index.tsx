@@ -9,6 +9,7 @@ import Wallet from '../Wallet';
 
 const Nft = ({ lite, register, detailed, events }: any) => {
     const { isConnected, address } = useAccount();
+    
     const [meta, setMeta] = useState({} as any)
 
     const [cached, setCached] = useStickyState(null, 'blueNfts');
