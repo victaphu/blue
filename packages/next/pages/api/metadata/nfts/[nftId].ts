@@ -46,21 +46,21 @@ export default async function handler(
 
       return 
     }
-    await Moralis.start({
-      apiKey: process.env.MORALIS_API_KEY!,
-      // ...and any other configuration
-    });
+    // await Moralis.start({
+    //   apiKey: process.env.MORALIS_API_KEY!,
+    //   // ...and any other configuration
+    // });
 
-    const response = await Moralis.EvmApi.nft.getNFTTokenIdOwners({
-      address,
-      chain,
-      tokenId: nftId,
-    });
-    // console.log(response.result);
-    if (response.result.length === 0) {
-      res.status(404).json({ error: 'token not found'});
-      return;
-    }
+    // const response = await Moralis.EvmApi.nft.getNFTTokenIdOwners({
+    //   address,
+    //   chain,
+    //   tokenId: nftId,
+    // });
+    // console.log(response.result, address, chain, nftId);
+    // if (response.result.length === 0) {
+    //   res.status(404).json({ error: 'token not found'});
+    //   return;
+    // }
     // proxy the image to the website by first loading the
     // token from the contract (721) decoding the props and
     // then retrieving image
