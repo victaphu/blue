@@ -3,6 +3,7 @@ module.exports = {
     content: [
         './pages/**/*.{html,js,tsx}',
         './components/**/*.{html,js,tsx}',
+        './common/**.*.{html,js,tsx}',
     ],
     theme: {
         typography: (theme) => ({}),
