@@ -8,9 +8,8 @@ import Nft from '../components/Nft';
 const Home: NextPage = () => {
     const [accessories, setAccessories] = useState({} as any);
     const [selected, setSelected] = useState(0);
-
     const [selectedPurchase, setSelectedPurchase] = useState(0);
-
+    
     useEffect(() => {
         let getAccessories = async () => {
             const articles = await axios.get(`/api/static/accessories`);
@@ -19,6 +18,8 @@ const Home: NextPage = () => {
         }
         getAccessories();
     }, [])
+
+    console.log(selectedPurchase)
 
     return (
         <div className="flex flex-col min-h-full items-center justify-center px-4 sm:px-6 lg:px-8 p-4">
@@ -36,7 +37,7 @@ const Home: NextPage = () => {
                     <div className='flex flex-wrap flex-row gap-2 my-4'>
                         {Object.keys(accessories).map((k: string, i) => {
                             const a = accessories[k][1];
-                            return (<div key={i} className={'rounded-full bg-base-300 bg-base-200 shadow-xl w-12 h-12 overflow-hidden ' + (selected === i && 'border border-2 border-black')} ><img key={i} width='50' height='50' onClick={e => setSelected(i)} alt="accessories" src={a.image} /></div>)
+                            return (<div key={i} className={'rounded-full bg-base-300 bg-base-200 shadow-xl w-12 h-12 overflow-hidden ' + (selected === i && 'border border-2 border-black')} ><img key={i} width='50' height='50' onClick={e => {setSelected(i); setSelectedPurchase(-1)}} alt="accessories" src={a.image} /></div>)
                         })}
                     </div>
                 </div></>
@@ -46,13 +47,13 @@ const Home: NextPage = () => {
                 <div className="flex flex-row flex-wrap gap-2">
                     {
                         accessories[Object.keys(accessories)[selected]]?.map((a: any, i: any) => {
-                            return <div key={i} className={'rounded-full bg-base-300 bg-base-200 overflow-hidden shadow-xl w-12 h-12'}><img width='50' height='48' onClick={e => setSelected(i)} alt="selected accessories" src={a.image} /></div>
+                            return <div key={i} className={'rounded-full bg-base-300 bg-base-200 overflow-hidden shadow-xl w-12 h-12 ' + (selectedPurchase === i && 'border border-2 border-black')}><img width='50' height='48' onClick={e => setSelectedPurchase(i)} alt="selected accessories" src={a.image} /></div>
                         })
                     }
                 </div>
             </div>
             <div className="w-full pb-24 pt-4">
-                <button type="button" className="group relative flex w-full justify-center rounded-md border border-transparent btn-primary py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                <button type="button" disabled={selectedPurchase < 0} className={"group relative flex w-full justify-center rounded-md border border-transparent btn py-2 px-4 text-sm font-medium text-white " + (selectedPurchase < 0 ? "bg-gray-200" : "btn-primary")}>
                     Buy
                 </button>
             </div>

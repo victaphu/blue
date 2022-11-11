@@ -12,6 +12,7 @@ import IBlue721 from "../common/abis/IBlue721.json"
 import IBlue1155 from "../common/abis/IBlue1155.json"
 import IBlueAvatar from "../common/abis/IBlueAvatar.json"
 import BlueRegistrar from "../common/abis/BlueRegistrar.json"
+import 'react-toastify/dist/ReactToastify.css';
 
 const ADDRESSES = {
 } as any
