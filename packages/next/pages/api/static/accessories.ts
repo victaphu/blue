@@ -38,6 +38,7 @@ export default async function handler(
       resultObj[prop].push({
         slotId: i+1,
         accessoryId: c+1,
+        tokenId: accId,
         image: `${process.env.ACCESSORIES_IMAGE_URI}/${accId ++}` 
       })
     }

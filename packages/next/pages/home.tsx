@@ -8,7 +8,7 @@ import { Line, Radar } from 'react-chartjs-2';
 import { FaHome, FaRegNewspaper, FaShoppingCart, FaWallet } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import { useAccount, useBalance, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi';
-import { Toothbrush } from '../common/lib/brush/Toothbrush';
+import { Toothbrush } from '../common/lib/brush/toothbrush';
 import Nft from '../components/Nft';
 
 ChartJs.register(

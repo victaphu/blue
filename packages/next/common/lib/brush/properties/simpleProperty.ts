@@ -2,7 +2,7 @@ import { WritableProperty, ReadOnlyProperty, NotifyProperty } from './property'
 import { Toothbrush } from '../toothbrush'
 
 export abstract class SimpleReadOnlyProperty<T> implements ReadOnlyProperty {
-  protected characteristic: Promise<BluetoothRemoteGATTCharacteristic | null>
+  protected characteristic: Promise<any | null>
 
   protected constructor (toothbrush: Toothbrush, serviceId: string, characteristicId: string) {
     this.characteristic = toothbrush.getCharacteristic(serviceId, characteristicId)
@@ -48,7 +48,7 @@ type ValueListener<T> = (value: T) => void
 export abstract class SimpleNotifyProperty<T> extends SimpleReadOnlyProperty<T> implements NotifyProperty {
   private listeners: ValueListener<T>[] = []
   private hasEventListener: boolean = false
-  protected listening: Promise<BluetoothRemoteGATTCharacteristic> | null
+  protected listening: Promise<any> | null
 
   protected constructor (toothbrush: Toothbrush, serviceId: string, characteristicId: string) {
     super(toothbrush, serviceId, characteristicId)
@@ -68,7 +68,7 @@ export abstract class SimpleNotifyProperty<T> extends SimpleReadOnlyProperty<T> 
       if (!event || !event.target) {
         return
       }
-      const characteristic = event.target as BluetoothRemoteGATTCharacteristic
+      const characteristic = event.target as any
       if (!characteristic.value) {
         return
       }

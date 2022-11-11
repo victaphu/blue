@@ -11,7 +11,7 @@ const CHARACTERISTIC = CHARACTERISTICS.DATA
 const COMMAND_ID_GET_DATA: number = 0x02
 
 export class DataProperty implements ReadOnlyProperty {
-  private characteristic: Promise<BluetoothRemoteGATTCharacteristic | null>
+  private characteristic: Promise<any | null>
   private command: CommandProperty
 
   constructor (toothbrush: Toothbrush) {
