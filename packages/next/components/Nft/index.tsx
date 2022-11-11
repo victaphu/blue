@@ -2,7 +2,7 @@
 import axios from 'axios';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { FaBluetoothB, FaHome, FaPlus, FaRegNewspaper, FaShareSquare, FaShoppingCart, FaWallet } from 'react-icons/fa';
+import { FaBluetoothB, FaHome, FaNotesMedical, FaPlus, FaRegNewspaper, FaShareSquare, FaShoppingCart, FaWallet } from 'react-icons/fa';
 import { useAccount } from 'wagmi';
 import useStickyState from '../../utils/useStickyState';
 import Wallet from '../Wallet';
@@ -102,14 +102,14 @@ const Nft = ({ lite, register, detailed, events }: any) => {
     return (
         <div className={"card w-96 shadow-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white " + (!lite && ' p-3 ') + (lite && ' card-side ')}>
             {detailed && <div className={"card w-full shadow-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white card-side "}>
-                <figure><Image className="rounded-l-xl" height="125" width="125" src={meta.properties.image.description} alt="nft" /></figure>
+                <figure><img className="rounded-l-xl w-28 " height="125" width="125" src={meta.properties.image.description} alt="nft" /></figure>
                 {!register && <Wallet lite={lite || detailed} />}
             </div>}
             <div className={"rounded " + (detailed && " pt-8")}>
-                {register && <figure><Image height="250" width="350" className="rounded-xl" src={meta.properties.image.description} alt="nft" /></figure>}
+                {register && <figure><img height="250" width="350" className="w-40 rounded-xl" src={meta.properties.image.description} alt="nft" /></figure>}
 
-                {lite && <figure><Image className={lite ? "rounded-l-xl" : "rounded-xl"} height="125" width="125" src={meta.properties.image.description} alt="nft" /></figure>}
-                {/* {detailed && <figure><Image height="250" width="350" className="rounded-xl" src={meta.properties.image.description} alt="nft" /></figure>} */}
+                {lite && <figure><img className={"w-24 " + (lite ? "rounded-l-xl" : "rounded-xl")} height="125" width="125" src={meta.properties.image.description} alt="nft" /></figure>}
+                {/* {detailed && <figure><img height="250" width="350" className="rounded-xl" src={meta.properties.image.description} alt="nft" /></figure>} */}
                 {detailed && <div className="card-body p-2">
                     <h2 className="card-title">{meta.properties.name.description}</h2>
                     <p className="text-xs">{meta.properties.description.description}</p>
@@ -117,10 +117,10 @@ const Nft = ({ lite, register, detailed, events }: any) => {
             </div>
             {!detailed && !register && <Wallet lite={lite} />}
             {detailed && <div className="flex flex-row gap-4 pt-8">
-                <div className="flex flex-1 flex-col justify-center items-center"><button onClick={events?.connect} className="text-xl btn rounded-2xl bg-[#C17BE7] glass"><FaBluetoothB /></button><span className='text-xs'>Connect</span></div>
-                <div className="flex flex-1 flex-col justify-center items-center"><button onClick={events?.add} className="text-xl flex-1 btn rounded-2xl bg-[#C17BE7] glass"><FaBluetoothB /></button><span className='text-xs'>Add</span></div>
-                <div className="flex flex-1 flex-col justify-center items-center"><button onClick={events?.explore} className="text-xl flex-1 btn rounded-2xl bg-[#C17BE7] glass"><FaBluetoothB /></button><span className='text-xs'>Explore</span></div>
-                <div className="flex flex-1 flex-col justify-center items-center"><button onClick={events?.txn} className="text-xl flex-1 btn rounded-2xl bg-[#C17BE7] glass"><FaBluetoothB /></button><span className='text-xs'>Txns</span></div>
+                <div className="flex flex-1 flex-col justify-center items-center"><button onClick={events?.connect} className="text-xl btn rounded-2xl bg-[#C17BE7] glass mb-1"><FaBluetoothB /></button><span className='text-xs'>Connect</span></div>
+                <div className="flex flex-1 flex-col justify-center items-center"><button onClick={events?.add} className="text-xl flex-1 btn rounded-2xl bg-[#C17BE7] glass mb-1"><FaPlus /></button><span className='text-xs'>Add</span></div>
+                <div className="flex flex-1 flex-col justify-center items-center"><button onClick={events?.explore} className="text-xl flex-1 btn rounded-2xl bg-[#C17BE7] glass mb-1"><FaShareSquare /></button><span className='text-xs'>Explore</span></div>
+                <div className="flex flex-1 flex-col justify-center items-center"><button onClick={events?.txn} className="text-xl flex-1 btn rounded-2xl bg-[#C17BE7] glass mb-1"><FaNotesMedical /></button><span className='text-xs'>Txns</span></div>
             </div>}
         </div>
     )

@@ -106,7 +106,7 @@ const Home: NextPage = () => {
       <ToastContainer/>
       <div className="w-full max-w-md space-y-8">
         <div>
-          <Image className="mx-auto h-48 w-auto" height='320' width='320' src="/images/screens/splash.svg" alt="Your Company" />
+          <img className="mx-auto h-48 w-auto" height='320' width='320' src="/images/screens/splash.svg" alt="Your Company" />
           <h1 className="mt-6 text-center text-3xl font-bold tracking-tight text-white">Welcome to <span className='text-blue-600'>Blue</span></h1>
           <h3 className="mt-6 text-center text-xl font-bold tracking-tight text-white">Sign in to your account</h3>
           <p className="mt-2 text-center text-md text-white">
