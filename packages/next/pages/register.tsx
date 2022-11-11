@@ -257,7 +257,7 @@ const Home: NextPage = () => {
                     <Nft register={true} />
                 </div>
                 <div className="text-2xl px-4 sm:px-6 lg:px-8 text-base-100">
-                    <button className={"btn w-full text-base-100 " + (steps === 0 || steps === 4 ? "btn-success" : "btn")} onClick={approveBlue20} ><span className='mr-2'>{getIcon()}</span> {getTitle()}</button>
+                    <button className={"btn w-full text-base-100 " + (steps === 0 || steps === 4 ? "btn-success" : "btn")} onClick={generateNft} ><span className='mr-2'>{getIcon()}</span> {getTitle()}</button>
                     <p className='color-base-300 text-sm mt-2'><b>To begin lets create a free NFT! </b>We will prompt you to sign 3 signatures to redeem your free Fairy Token. Click Start Registration to begin</p>
                 </div>
                 <ul className="steps steps-vertical text-base-100 px-4 sm:px-6 lg:px-8">

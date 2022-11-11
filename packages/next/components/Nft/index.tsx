@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { FaBluetoothB, FaHome, FaNotesMedical, FaPlus, FaRegNewspaper, FaShareSquare, FaShoppingCart, FaWallet } from 'react-icons/fa';
 import { useAccount } from 'wagmi';
-import useStickyState from '../../utils/useStickyState';
+import useStickyState from '../../common/utils/useStickyState';
 import Wallet from '../Wallet';
 
 const Nft = ({ lite, register, detailed, events }: any) => {
@@ -15,7 +15,7 @@ const Nft = ({ lite, register, detailed, events }: any) => {
     const [cached, setCached] = useStickyState(null, 'blueNfts');
 
     useEffect(() => {
-        console.log('cached, ', cached)
+        console.log('cached, ', cached, address)
         if (!address || !cached) {
             return;
         }
